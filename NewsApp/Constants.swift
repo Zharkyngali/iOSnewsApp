@@ -9,4 +9,5 @@
 
 struct K {
     static let cellIdentifier = "ReusableCell"
+    static let nibName = "TableViewCell"
 }
