@@ -15,35 +15,20 @@ class NewsViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     var articles = [Articles]()
-    let newsURL = "https://newsapi.org/v2/top-headlines?country=us&apiKey=494799f7f38b47cd8a421329c2cb9925"
+    let temp = NewsManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.register(UINib(nibName: "TableViewCell", bundle: nil), forCellReuseIdentifier: "ReusableCell")
         tableView.dataSource = self
-        
-//        tableView.estimatedRowHeight = 414
         tableView.rowHeight = UITableView.automaticDimension
         self.tableView.rowHeight = 200
         
-        if let url = URL(string: newsURL) {
-            if let safeData = try? Data(contentsOf: url) {
-                self.parseJSON(safeData: safeData)
-            }
-        }
-
-    }
-    
-    @IBAction func contentPressed(_ sender: UIButton) {
-    }
-    func parseJSON(safeData: Data) {
-        let decoder = JSONDecoder()
-        if let decodeData = try? decoder.decode(NewsData.self, from: safeData) {
-            articles = decodeData.articles
-            tableView.reloadData()
-        }
+        articles = temp.getData()
+        tableView.reloadData()
     }
 }
+
 
 extension NewsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
